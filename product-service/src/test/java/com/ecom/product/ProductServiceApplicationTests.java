@@ -1,7 +1,6 @@
 package com.ecom.product;
 
 import io.restassured.RestAssured;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.testcontainers.containers.MongoDBContainer;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ProductServiceApplicationTests {
 
+//	This annotation automatically injects service host and port
 	@ServiceConnection
 	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0.5");
 	@LocalServerPort
@@ -28,7 +28,6 @@ class ProductServiceApplicationTests {
 
 	static {
 		mongoDBContainer.start();
-
 	}
 
 	@Test
