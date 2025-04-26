@@ -1,6 +1,5 @@
 package com.ecom.order.service;
 
-import com.ecom.order.client.InventoryClient;
 import com.ecom.order.dto.OrderRequest;
 import com.ecom.order.model.Order;
 import com.ecom.order.repository.OrderRepository;
@@ -14,21 +13,13 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final InventoryClient inventoryClient;
-
     public void placeOrder( OrderRequest orderRequest ){
+        Order order = new Order();
+        order.setOrderNumber(UUID.randomUUID().toString());
+        order.setPrice(orderRequest.price());
+        order.setSkuCode(orderRequest.skuCode());
+        order.setQuantity(orderRequest.quatity());
 
-        var isProductInStock =inventoryClient.isInStock(orderRequest.skuCode() , orderRequest.quantity());
-
-        if(isProductInStock) {
-            Order order = new Order();
-            order.setOrderNumber(UUID.randomUUID().toString());
-            order.setPrice(orderRequest.price());
-            order.setSkuCode(orderRequest.skuCode());
-            order.setQuantity(orderRequest.quantity());
-            orderRepository.save(order);
-        } else {
-            throw  new RuntimeException("Product with SkuCode "+ orderRequest.skuCode() + "is not in stock");
-        }
+        orderRepository.save(order);
     }
 }
